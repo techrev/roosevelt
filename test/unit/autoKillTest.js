@@ -28,7 +28,7 @@ describe('Roosevelt Autokill Test', function () {
     })
   })
 
-  it.skip('should kill the validator after the app has gracefully shutdown if the validator is a seperate process', function (done) {
+  it('should kill the validator after the app has gracefully shutdown if the validator is a separate process', function (done) {
     let cannotConnectBool = false
     let htmlValidatorPortClosedBool = false
     let autoKillerStartedBool = false
@@ -313,7 +313,7 @@ describe('Roosevelt Autokill Test', function () {
           const { statusCode } = res
           // if we get any sort of statusCode, whether it be 404, 200 etc, then that means the app is still active and that the timer should reset
           if (statusCode) {
-            assert.fail('we got a response from a validator that is suppose to be close')
+            assert.fail('we got a response from a validator that is supposed to be closed')
             done()
           }
           // if we get an error, likely that the connection is close and is safe to try to close the validator

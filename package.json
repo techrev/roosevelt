@@ -97,7 +97,7 @@
   },
   "scripts": {
     "codecov": "./node_modules/.bin/codecov",
-    "coverage": "nyc mocha --timeout 250000 test/unit",
+    "coverage": "nyc mocha --timeout 60000 test/unit/autoKillTest.js",
     "lint": "standard && eslint ./test/unit",
     "postinstall": "node ./lib/scripts/configAuditor.js",
     "test": "npm run lint && mocha --timeout 250000 test/unit"

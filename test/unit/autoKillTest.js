@@ -28,7 +28,7 @@ describe('Roosevelt Autokill Test', function () {
     })
   })
 
-  it('should kill the validator after the app has gracefully shutdown if the validator is a seperate process', function (done) {
+  it.skip('should kill the validator after the app has gracefully shutdown if the validator is a seperate process', function (done) {
     let cannotConnectBool = false
     let htmlValidatorPortClosedBool = false
     let autoKillerStartedBool = false
@@ -56,6 +56,7 @@ describe('Roosevelt Autokill Test', function () {
 
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {
+      console.log(`data is ${data}`)
       if (data.includes('Killed process with PID')) {
         htmlValidatorPortClosedBool = true
         exit()

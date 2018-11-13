@@ -207,6 +207,7 @@ module.exports = function (params) {
     }
 
     function validateHTML () {
+      logger.log(`In roosevelt line 210, about to call html validator`)
       require('./lib/htmlValidator')(app, mapRoutes)
     }
 

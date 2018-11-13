@@ -56,7 +56,7 @@ describe('Roosevelt Autokill Test', function () {
 
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {
-      console.log(`data is ${data}`)
+      console.log(`From autoKillTest, line 59, data is ${data}`)
       if (data.includes('Killed process with PID')) {
         htmlValidatorPortClosedBool = true
         exit()

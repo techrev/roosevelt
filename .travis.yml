@@ -6,6 +6,8 @@ os:
 node_js:
   - "11"
   - "10"
+install:
+  - npm install
 script:
   - npm run lint
   - npm run coverage

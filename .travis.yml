@@ -6,8 +6,9 @@ os:
 node_js:
   - "11"
   - "10"
-install:
+before_script:
   - choco install jdk11 -params "source=false"
+  - refreshenv
 script:
   - npm run lint
   - npm run coverage

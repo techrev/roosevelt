@@ -9,6 +9,7 @@ node_js:
 before_script:
   - choco install jdk11 -params "source=false"
   - C://ProgramData//chocolatey//bin//RefreshEnv.cmd
+  - java -version
 script:
   - npm run lint
   - npm run coverage

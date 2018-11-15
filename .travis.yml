@@ -8,8 +8,9 @@ node_js:
   - "10"
 before_script:
   - choco install jdk11 -params "source=false"
-  - powershell $Env:Path
-  - powershell $AddedPath = $Env:Path + 'C:\Program Files\Java\jdk-11.0.1\bin'
+  - powershell Get-Item Env:Path|fl
+  - powershell $CurrPath = Get-Item Env:Path
+  - powershell $AddedPath = $CurrPath + 'C:\Program Files\Java\jdk-11.0.1\bin'
   - powershell Set-Item -path env:PATH -value $AddedPath
   - powershell Set-Item -path env:JAVA_HOME -value 'C:\Program Files\Java\jdk-11.0.1\bin'
   - powershell refreshenv

@@ -6,9 +6,8 @@ os:
 node_js:
   - "11"
   - "10"
-before_script:
+install:
   - choco install jdk11 -params "source=false"
-  - "C:/Program Files/Java/jdk-11.0.1/java" -version
 script:
   - npm run lint
   - npm run coverage

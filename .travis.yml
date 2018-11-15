@@ -8,6 +8,8 @@ node_js:
   - "10"
 before_script:
   - choco install jdk11 -params "source=false"
+  - export PATH=$PATH:/c/Program Files/Java/jdk-11.0.1/bin
+  - export JAVA_HOME=/c/Program Files/Java/jdk-11.0.1/bin
   - C://ProgramData//chocolatey//bin//RefreshEnv.cmd
   - env
 script:

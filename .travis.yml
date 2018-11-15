@@ -8,7 +8,7 @@ node_js:
   - "10"
 before_script:
   - choco install jdk11 -params "source=false"
-  - refreshenv
+  - RefreshEnv
 script:
   - npm run lint
   - npm run coverage

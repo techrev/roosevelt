@@ -6,6 +6,8 @@ os:
 node_js:
   - "11"
   - "10"
+before_script:
+  - cd
 script:
   - npm run lint
   - npm run coverage

@@ -6,7 +6,6 @@ node_js:
   - "10"
 before_script:
   - choco install jdk11 -params "source=false"
-  - C://ProgramData//chocolately//bin//RefreshEnv.cmd
   - cd "C:\Program Files\Java\jdk-11.0.1\bin"
   - java -version
 script:

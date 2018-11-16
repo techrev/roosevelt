@@ -8,7 +8,7 @@ node_js:
   - "10"
 before_script:
   - choco install jdk11 -params "source=false"
-  - powershell get-command java
+  - where.exe java
   - env
 script:
   - npm run lint

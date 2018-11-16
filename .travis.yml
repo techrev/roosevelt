@@ -8,7 +8,7 @@ node_js:
   - "10"
 before_script:
   - choco install jdk11 -params "source=false"
-  - where.exe java
+  - where.exe javac
   - env
 script:
   - npm run lint

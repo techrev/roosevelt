@@ -5,10 +5,7 @@ node_js:
   - "11"
   - "10"
 before_script:
-  - choco install jdk11 -params "source=false"
-  - cd "C:\Program Files\Java\jdk-11.0.1\bin"
-  - echo The current directory is %CD%
-  - java -version
+  - ll /bin
 script:
   - npm run lint
   - npm run coverage

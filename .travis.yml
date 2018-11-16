@@ -6,7 +6,7 @@ node_js:
   - "10"
 before_script:
   - choco install jdk8
-  - export PATH=$PATH:"/c/Program Files/Java/jdk-1.8.0_191/bin"
+  - export PATH=$PATH:"/c/Program Files/Java/jdk1.8.0_191/bin"
   - java version
 script:
   - npm run coverage

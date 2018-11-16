@@ -56,7 +56,6 @@ describe('Roosevelt Autokill Test', function () {
 
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {
-      console.log(`From autoKillTest, line 59, data is ${data}`)
       if (data.includes('Killed process with PID')) {
         htmlValidatorPortClosedBool = true
         exit()
@@ -135,7 +134,7 @@ describe('Roosevelt Autokill Test', function () {
     }
   })
 
-  it('should say that its restarting auto Killer if one is running and the app is being initialized again', function (done) {
+  it('should say that it\'s restarting auto Killer if one is running and the app is being initialized again', function (done) {
     let restartAutoKillerLogBool = false
 
     // generate the test app
@@ -164,6 +163,7 @@ describe('Roosevelt Autokill Test', function () {
 
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {
+      console.log(`From autoKillTest, line 166, data is ${data}`)
       if (data.includes('Respawning a process to automatically kill the detached validator')) {
         restartAutoKillerLogBool = true
       } else if (data.includes('Killed process with PID')) {
@@ -172,7 +172,8 @@ describe('Roosevelt Autokill Test', function () {
     })
 
     // when the app finishes initialization, kill it
-    testApp.on('message', () => {
+    testApp.on('message', (msg) => {
+      console.log(`From autoKillTest, line 176, msg is ${msg}`)
       testApp.send('stop')
     })
 

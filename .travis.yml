@@ -5,6 +5,6 @@ node_js:
   - "11"
   - "10"
 before_script:
-  - powershell Get-PSDrive
+  - powershell Get-Childitem -Path Env:* | Sort-Object Name
 script:
   - npm run coverage

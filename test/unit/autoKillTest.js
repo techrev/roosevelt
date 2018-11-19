@@ -137,6 +137,8 @@ describe('Roosevelt Autokill Test', function () {
   it('should say that it\'s restarting auto Killer if one is running and the app is being initialized again', function (done) {
     let restartAutoKillerLogBool = false
     let beg = Date.now()
+    let end = Date.now()
+    let timeToRun = end - beg
     // generate the test app
     generateTestApp({
       appDir: appDir,
@@ -164,29 +166,29 @@ describe('Roosevelt Autokill Test', function () {
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {
       console.log(`From autoKillTest, line 166, data is ${data}`)
+      end = Date.now()
+      timeToRun = end - beg
+      console.log(`${timeToRun / 1000} seconds since test launch`)
       if (data.includes('Respawning a process to automatically kill the detached validator')) {
         restartAutoKillerLogBool = true
       } else if (data.includes('Killed process with PID')) {
-        let end = Date.now()
-        let timeToRun = end - beg
-        console.log(`Took ${timeToRun / 1000} to run autoKillTest`)
         exit()
       }
     })
 
     // when the app finishes initialization, kill it
     testApp.on('message', (msg) => {
-      if (typeof msg === 'object') {
-        Object.keys(msg).forEach(key => {
-          console.log(`${key}: ${msg[key]}`)
-        })
-      }
-      console.log(`From autoKillTest, line 176, msg is ${msg}`)
+      end = Date.now()
+      timeToRun = end - beg
+      console.log(`Received message, about to kill app. ${timeToRun / 1000} seconds since test launch`)
       testApp.send('stop')
     })
 
     // when the autokiller has confirmed it has killed the process, check assertions and finish this test
     function exit () {
+      end = Date.now()
+      timeToRun = end - beg
+      console.log(`Called exit function. ${timeToRun / 1000} seconds since test launch`)
       assert.strictEqual(restartAutoKillerLogBool, true, 'Roosevelt did not restart the autoKiller')
       done()
     }

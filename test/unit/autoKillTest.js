@@ -169,7 +169,7 @@ describe('Roosevelt Autokill Test', function () {
       } else if (data.includes('Killed process with PID')) {
         let end = Date.now()
         let timeToRun = end - beg
-        console.log(`Took ${timeToRun} to run autoKillTest`)
+        console.log(`Took ${timeToRun / 1000} to run autoKillTest`)
         exit()
       }
     })

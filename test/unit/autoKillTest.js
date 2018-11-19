@@ -173,6 +173,11 @@ describe('Roosevelt Autokill Test', function () {
 
     // when the app finishes initialization, kill it
     testApp.on('message', (msg) => {
+      if (typeof msg === 'object') {
+        Object.keys(msg).forEach(key => {
+          console.log(`${key}: ${msg[key]}`)
+        })
+      }
       console.log(`From autoKillTest, line 176, msg is ${msg}`)
       testApp.send('stop')
     })

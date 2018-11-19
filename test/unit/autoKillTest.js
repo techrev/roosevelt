@@ -136,7 +136,7 @@ describe('Roosevelt Autokill Test', function () {
 
   it('should say that it\'s restarting auto Killer if one is running and the app is being initialized again', function (done) {
     let restartAutoKillerLogBool = false
-
+    let beg = Date.now()
     // generate the test app
     generateTestApp({
       appDir: appDir,
@@ -167,6 +167,9 @@ describe('Roosevelt Autokill Test', function () {
       if (data.includes('Respawning a process to automatically kill the detached validator')) {
         restartAutoKillerLogBool = true
       } else if (data.includes('Killed process with PID')) {
+        let end = Date.now()
+        let timeToRun = end - beg
+        console.log(`Took ${timeToRun} to run autoKillTest`)
         exit()
       }
     })

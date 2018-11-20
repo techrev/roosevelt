@@ -166,10 +166,10 @@ describe('Roosevelt Autokill Test', function () {
 
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {
-      console.log(`From autoKillTest, line 166, data is ${data}`)
       end = Date.now()
       timeToRun = end - beg
       console.log(`${timeToRun / 1000} seconds since test launch`)
+      console.log(`From autoKillTest, line 166, data is ${data}`)
       if (data.includes('Respawning a process to automatically kill the detached validator')) {
         restartAutoKillerLogBool = true
       } else if (data.includes('Killed process with PID')) {

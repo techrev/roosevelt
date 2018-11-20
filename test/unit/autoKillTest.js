@@ -157,9 +157,10 @@ describe('Roosevelt Autokill Test', function () {
       onServerStart: `(app) => {process.send(app.get("params"))}`
     }, options)
 
+    console.log('Starting an autokiller instance from autoKillTest line 162')
     // fork an autoKiller instance
     fork(path.join(__dirname, '../../lib/scripts/autoKillValidator.js'), [48888, 10000, 'true'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
-
+    console.log('Starting the app from autoKillTest line 165, which will [probably?] launch it\'s own autokiller')
     // fork and run app.js as a child process
     const testApp = fork(path.join(appDir, 'app.js'), ['--dev'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
 

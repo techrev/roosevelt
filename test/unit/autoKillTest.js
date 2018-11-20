@@ -136,9 +136,9 @@ describe('Roosevelt Autokill Test', function () {
 
   it('should say that it\'s restarting auto Killer if one is running and the app is being initialized again', function (done) {
     let restartAutoKillerLogBool = false
-    let beg = Date.now()
-    let end = Date.now()
-    let timeToRun = end - beg
+    // let beg = Date.now()
+    // let end = Date.now()
+    // let timeToRun = end - beg
     // generate the test app
     generateTestApp({
       appDir: appDir,
@@ -159,16 +159,45 @@ describe('Roosevelt Autokill Test', function () {
 
     console.log('Starting an autokiller instance from autoKillTest line 162')
     // fork an autoKiller instance
-    fork(path.join(__dirname, '../../lib/scripts/autoKillValidator.js'), [48888, 10000, 'true'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
-    console.log('Starting the app from autoKillTest line 165, which will [probably?] launch it\'s own autokiller')
+    const autoKill1 = fork(path.join(__dirname, '../../lib/scripts/autoKillValidator.js'), [48888, 10000, 'true'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
+
+    autoKill1.stdout.on('data', (data) => {
+      console.log(`From autokillTest line 165, autokill1 stdout data is ${data}`)
+    })
+
+    autoKill1.stderr.on('data', (data) => {
+      console.log(`From autokillTest line 169, autokill1 stderr data is ${data}`)
+    })
+
+    autoKill1.on('error', (err) => {
+      console.log(`in autoKillTest line 173, error received from autokill1: ${err.message}`)
+    })
+
+    autoKill1.on('message', (msg) => {
+      console.log(`in autoKillTest line 177, message received from autokill1: ${msg}`)
+    })
+
+    autoKill1.on('disconnect', (code, signal) => {
+      console.log(`in autoKillTest line 181, disconnect received from autokill1, code is ${code} signal is ${signal}`)
+    })
+
+    autoKill1.on('close', (code, signal) => {
+      console.log(`in autoKillTest line 185, close received from autokill1, code is ${code} signal is ${signal}`)
+    })
+
+    autoKill1.on('exit', (code, signal) => {
+      console.log(`in autoKillTest line 189, exit received from autokill1, code is ${code} signal is ${signal}`)
+    })
+
+    console.log('Starting the app from autoKillTest line 165, which will launch it\'s own autokiller')
     // fork and run app.js as a child process
     const testApp = fork(path.join(appDir, 'app.js'), ['--dev'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
 
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {
-      end = Date.now()
-      timeToRun = end - beg
-      console.log(`${timeToRun / 1000} seconds since test launch`)
+      // end = Date.now()
+      // timeToRun = end - beg
+      // console.log(`${timeToRun / 1000} seconds since test launch`)
       console.log(`From autoKillTest, line 166, data is ${data}`)
       if (data.includes('Respawning a process to automatically kill the detached validator')) {
         restartAutoKillerLogBool = true
@@ -179,17 +208,17 @@ describe('Roosevelt Autokill Test', function () {
 
     // when the app finishes initialization, kill it
     testApp.on('message', (msg) => {
-      end = Date.now()
-      timeToRun = end - beg
-      console.log(`Received message, about to kill app. ${timeToRun / 1000} seconds since test launch`)
+      // end = Date.now()
+      // timeToRun = end - beg ${timeToRun / 1000} seconds since test launch
+      console.log(`Received message ${msg} in testApp, about to kill app. `)
       testApp.send('stop')
     })
 
     // when the autokiller has confirmed it has killed the process, check assertions and finish this test
     function exit () {
-      end = Date.now()
-      timeToRun = end - beg
-      console.log(`Called exit function. ${timeToRun / 1000} seconds since test launch`)
+      // end = Date.now()
+      // timeToRun = end - beg ${timeToRun / 1000} seconds since test launch
+      console.log(`in autoKillTest line 196, called exit function to stop test.`)
       assert.strictEqual(restartAutoKillerLogBool, true, 'Roosevelt did not restart the autoKiller')
       done()
     }

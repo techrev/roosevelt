@@ -198,7 +198,7 @@ describe('Roosevelt Autokill Test', function () {
       // end = Date.now()
       // timeToRun = end - beg
       // console.log(`${timeToRun / 1000} seconds since test launch`)
-      console.log(`From autoKillTest, line 166, data is ${data}`)
+      console.log(`From autoKillTest, line 201, testApp stdout data is ${data}`)
       if (data.includes('Respawning a process to automatically kill the detached validator')) {
         restartAutoKillerLogBool = true
       } else if (data.includes('Killed process with PID')) {
@@ -206,19 +206,39 @@ describe('Roosevelt Autokill Test', function () {
       }
     })
 
+    testApp.stderr.on('data', (data) => {
+      console.log(`From autoKillTest, line 210, testApp stderr data is ${data}`)
+    })
+
     // when the app finishes initialization, kill it
     testApp.on('message', (msg) => {
       // end = Date.now()
       // timeToRun = end - beg ${timeToRun / 1000} seconds since test launch
-      console.log(`Received message ${msg} in testApp, about to kill app. `)
+      console.log(`Received message ${msg.toString()} in testApp, about to kill app. `)
       testApp.send('stop')
+    })
+
+    testApp.on('error', (err) => {
+      console.log(`From autoKillTest, line 222, testApp received error: ${err.message}`)
+    })
+
+    testApp.on('disconnect', (code, signal) => {
+      console.log(`From autoKillTest, line 226, testApp received disconnect with code ${code} and signal ${signal}`)
+    })
+
+    testApp.on('close', (code, signal) => {
+      console.log(`From autoKillTest, line 230, testApp received close with code ${code} and signal ${signal}`)
+    })
+
+    testApp.on('exit', (code, signal) => {
+      console.log(`From autoKillTest, line 234, testApp received exit with code ${code} and signal ${signal}`)
     })
 
     // when the autokiller has confirmed it has killed the process, check assertions and finish this test
     function exit () {
       // end = Date.now()
       // timeToRun = end - beg ${timeToRun / 1000} seconds since test launch
-      console.log(`in autoKillTest line 196, called exit function to stop test.`)
+      console.log(`in autoKillTest line 241, called exit function to stop test.`)
       assert.strictEqual(restartAutoKillerLogBool, true, 'Roosevelt did not restart the autoKiller')
       done()
     }

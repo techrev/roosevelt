@@ -159,7 +159,7 @@ describe('Roosevelt Autokill Test', function () {
 
     console.log('Starting an autokiller instance from autoKillTest line 162')
     // fork an autoKiller instance
-    const autoKill1 = fork(path.join(__dirname, '../../lib/scripts/autoKillValidator.js'), [48888, 10000, 'true'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
+    const autoKill1 = fork(path.join(__dirname, '../../lib/scripts/autoKillValidator.js'), [48888, 30000, 'true'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
 
     autoKill1.stdout.on('data', (data) => {
       console.log(`From autokillTest line 165, autokill1 stdout data is ${data}`)

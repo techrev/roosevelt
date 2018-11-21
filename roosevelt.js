@@ -46,8 +46,6 @@ module.exports = function (params) {
 
   // Store updated params back into local variable
   params = app.get('params')
-  let paramStr = require('util').inspect(params, { depth: null })
-  console.log(`in roosevelt line 50, params are ${paramStr}`)
 
   // get and expose logger
   logger = require('./lib/tools/logger')(app.get('params').logging)

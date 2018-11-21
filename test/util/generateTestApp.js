@@ -16,8 +16,7 @@ module.exports = function (params, options) {
   } else {
     appDir = params.appDir || options.appDir
   }
-  let paramStr = util.inspect(params, { depth: null })
-  console.log(`in generateTestApp line 20, params are ${paramStr}`)
+
   if (params.htmlValidator === undefined) {
     params.htmlValidator = {}
   }

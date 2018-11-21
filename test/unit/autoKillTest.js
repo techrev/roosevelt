@@ -191,7 +191,7 @@ describe('Roosevelt Autokill Test', function () {
 
     console.log('Starting the app from autoKillTest line 165, which will launch it\'s own autokiller')
     // fork and run app.js as a child process
-    const testApp = fork(path.join(appDir, 'app.js'), ['--dev'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
+    const testApp = fork(path.join(appDir, 'app.js'), ['--development'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
 
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {

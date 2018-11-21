@@ -46,6 +46,8 @@ module.exports = function (params) {
 
   // Store updated params back into local variable
   params = app.get('params')
+  let paramStr = require('util').inspect(params, { depth: null })
+  console.log(`in roosevelt line 50, params are ${paramStr}`)
 
   // get and expose logger
   logger = require('./lib/tools/logger')(app.get('params').logging)
@@ -195,22 +197,18 @@ module.exports = function (params) {
     preprocessCss()
 
     function preprocessCss () {
-      console.log('in roosevelt line 198 about to call preprocessCss')
       require('./lib/preprocessCss')(app, bundleJs)
     }
 
     function bundleJs () {
-      console.log('in roosevelt line 203, about to call jsBundler')
       require('./lib/jsBundler')(app, compileJs)
     }
 
     function compileJs () {
-      console.log('in roosevelt line 208, about to call jsCompiler')
       require('./lib/jsCompiler')(app, validateHTML)
     }
 
     function validateHTML () {
-      console.log('in roosevelt line 213, about to call htmlValidator')
       require('./lib/htmlValidator')(app, mapRoutes)
     }
 

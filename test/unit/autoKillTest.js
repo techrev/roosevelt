@@ -28,7 +28,7 @@ describe('Roosevelt Autokill Test', function () {
     })
   })
 
-  it.skip('should kill the validator after the app has gracefully shutdown if the validator is a separate process', function (done) {
+  it('should kill the validator after the app has gracefully shutdown if the validator is a separate process', function (done) {
     let cannotConnectBool = false
     let htmlValidatorPortClosedBool = false
     let autoKillerStartedBool = false
@@ -80,7 +80,7 @@ describe('Roosevelt Autokill Test', function () {
     }
   })
 
-  it.skip('should restart the autokill timer if the app is still active, then once the app has gracefully shutdown it should kill the validator.', function (done) {
+  it('should restart the autokill timer if the app is still active, then once the app has gracefully shutdown it should kill the validator.', function (done) {
     let timerResetBool = false
     let htmlValidatorPortClosedBool = false
     let autoKillerStartedBool = false
@@ -136,10 +136,6 @@ describe('Roosevelt Autokill Test', function () {
 
   it('should say that it\'s restarting auto Killer if one is running and the app is being initialized again', function (done) {
     let restartAutoKillerLogBool = false
-    // let beg = Date.now()
-    // let end = Date.now()
-    // let timeToRun = end - beg
-    // generate the test app
     generateTestApp({
       appDir: appDir,
       generateFolderStructure: true,
@@ -157,48 +153,14 @@ describe('Roosevelt Autokill Test', function () {
       onServerStart: `(app) => {process.send(app.get("params"))}`
     }, options)
 
-    console.log('Starting an autokiller instance from autoKillTest line 162')
     // fork an autoKiller instance
-    const autoKill1 = fork(path.join(__dirname, '../../lib/scripts/autoKillValidator.js'), [48888, 60000, 'true'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
+    fork(path.join(__dirname, '../../lib/scripts/autoKillValidator.js'), [48888, 60000, 'true'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
 
-    autoKill1.stdout.on('data', (data) => {
-      console.log(`From autokillTest line 165, autokill1 stdout data is ${data}`)
-    })
-
-    autoKill1.stderr.on('data', (data) => {
-      console.log(`From autokillTest line 169, autokill1 stderr data is ${data}`)
-    })
-
-    autoKill1.on('error', (err) => {
-      console.log(`in autoKillTest line 173, error received from autokill1: ${err.message}`)
-    })
-
-    autoKill1.on('message', (msg) => {
-      console.log(`in autoKillTest line 177, message received from autokill1: ${msg}`)
-    })
-
-    autoKill1.on('disconnect', (code, signal) => {
-      console.log(`in autoKillTest line 181, disconnect received from autokill1, code is ${code} signal is ${signal}`)
-    })
-
-    autoKill1.on('close', (code, signal) => {
-      console.log(`in autoKillTest line 185, close received from autokill1, code is ${code} signal is ${signal}`)
-    })
-
-    autoKill1.on('exit', (code, signal) => {
-      console.log(`in autoKillTest line 189, exit received from autokill1, code is ${code} signal is ${signal}`)
-    })
-
-    console.log('Starting the app from autoKillTest line 165, which will launch it\'s own autokiller')
     // fork and run app.js as a child process
     const testApp = fork(path.join(appDir, 'app.js'), ['--dev'], { 'stdio': ['pipe', 'pipe', 'pipe', 'ipc'] })
 
     // on the output stream, check for specific logs
     testApp.stdout.on('data', (data) => {
-      // end = Date.now()
-      // timeToRun = end - beg
-      // console.log(`${timeToRun / 1000} seconds since test launch`)
-      console.log(`From autoKillTest, line 201, testApp stdout data is ${data}`)
       if (data.includes('Respawning a process to automatically kill the detached validator')) {
         restartAutoKillerLogBool = true
       } else if (data.includes('Killed process with PID')) {
@@ -206,45 +168,19 @@ describe('Roosevelt Autokill Test', function () {
       }
     })
 
-    testApp.stderr.on('data', (data) => {
-      console.log(`From autoKillTest, line 210, testApp stderr data is ${data}`)
-    })
-
     // when the app finishes initialization, kill it
-    testApp.on('message', (msg) => {
-      // end = Date.now()
-      // timeToRun = end - beg ${timeToRun / 1000} seconds since test launch
-      console.log(`Received message ${msg.toString()} in testApp, about to kill app. `)
+    testApp.on('message', () => {
       testApp.send('stop')
-    })
-
-    testApp.on('error', (err) => {
-      console.log(`From autoKillTest, line 222, testApp received error: ${err.message}`)
-    })
-
-    testApp.on('disconnect', (code, signal) => {
-      console.log(`From autoKillTest, line 226, testApp received disconnect with code ${code} and signal ${signal}`)
-    })
-
-    testApp.on('close', (code, signal) => {
-      console.log(`From autoKillTest, line 230, testApp received close with code ${code} and signal ${signal}`)
-    })
-
-    testApp.on('exit', (code, signal) => {
-      console.log(`From autoKillTest, line 234, testApp received exit with code ${code} and signal ${signal}`)
     })
 
     // when the autokiller has confirmed it has killed the process, check assertions and finish this test
     function exit () {
-      // end = Date.now()
-      // timeToRun = end - beg ${timeToRun / 1000} seconds since test launch
-      console.log(`in autoKillTest line 241, called exit function to stop test.`)
       assert.strictEqual(restartAutoKillerLogBool, true, 'Roosevelt did not restart the autoKiller')
       done()
     }
   })
 
-  it.skip('should be able to say that there is no autoKiller and that it is starting a new one if the roosevelt_validator_pid.txt file exists, but the process is already dead', function (done) {
+  it('should be able to say that there is no autoKiller and that it is starting a new one if the roosevelt_validator_pid.txt file exists, but the process is already dead', function (done) {
     let noAutoKillerFromPIDBool = false
 
     // generate the test app
@@ -309,7 +245,7 @@ describe('Roosevelt Autokill Test', function () {
     }
   })
 
-  it.skip('should log that a validator will be created if one isn\'t running but all other logs are hidden due to verbose logs being set false.', function (done) {
+  it('should log that a validator will be created if one isn\'t running but all other logs are hidden due to verbose logs being set false.', function (done) {
     let timerResetBool = false
     let htmlValidatorPortClosedBool = false
     let autoKillerStartedBool = false
